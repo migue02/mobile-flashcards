@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import { receiveDecks } from '../actions'
 import { getDecks } from '../utils/api'
 import AppLoading from 'expo-app-loading'
+import { TouchableOpacity } from 'react-native-gesture-handler'
 
 class Decks extends Component {
     state = {
@@ -23,7 +24,14 @@ class Decks extends Component {
     renderItem = ({ item }) => {
         return (
             <View style={styles.item}>
-                <Deck { ...item } />
+                <TouchableOpacity
+                    onPress={() => this.props.navigation.navigate(
+                        'DeckDetail',
+                        { id: item.title }
+                    )}
+                >
+                    <Deck { ...item } />
+                </TouchableOpacity>
             </View>
         )
     }
