@@ -2,100 +2,24 @@ import AsyncStorage from '@react-native-community/async-storage'
 
 const DECKS_STORAGE_KEY = 'UdaciFitness:calendar'
 
-const DummyData = {
-    React: {
-        title: 'React',
-        questions: [
-            {
-                question: 'What is React?',
-                answer: 'A library for managing user interfaces'
-            },
-            {
-                question: 'Where do you make Ajax requests in React?',
-                answer: 'The componentDidMount lifecycle event'
-            }
-        ]
-    },
-    JavaScript: {
-        title: 'JavaScript',
-        questions: [
-            {
-                question: 'What is a closure?',
-                answer: 'The combination of a function and the lexical environment within which that function was declared.'
-            }
-        ]
-    },
-    JavaScrip2t: {
-        title: 'JavaScript2',
-        questions: [
-            {
-                question: 'What is a closure?',
-                answer: 'The combination of a function and the lexical environment within which that function was declared.'
-            }
-        ]
-    },
-    JavaScrip3t: {
-        title: 'JavaScri3pt',
-        questions: [
-            {
-                question: 'What is a closure?',
-                answer: 'The combination of a function and the lexical environment within which that function was declared.'
-            }
-        ]
-    },
-    JavaSc1ipt: {
-        title: 'JavaSc1ipt',
-        questions: [
-            {
-                question: 'What is a closure?',
-                answer: 'The combination of a function and the lexical environment within which that function was declared.'
-            }
-        ]
-    },
-    JavaS1cr2ipt: {
-        title: 'JavaS1cr2ipt',
-        questions: [
-            {
-                question: 'What is a closure?',
-                answer: 'The combination of a function and the lexical environment within which that function was declared.'
-            }
-        ]
-    },
-    JavaS21cr2ipt: {
-        title: 'JavaS21cr2ipt',
-        questions: [
-            {
-                question: 'What is a closure?',
-                answer: 'The combination of a function and the lexical environment within which that function was declared.'
-            }
-        ]
-    },
-    JavaS21cr2ipt1: {
-        title: 'JavaS21cr2ipt1',
-        questions: [
-            {
-                question: 'What is a closure?',
-                answer: 'The combination of a function and the lexical environment within which that function was declared.'
-            }
-        ]
-    }
-}
 
 export function getDecks () {
-    return AsyncStorage.getItem(DECKS_STORAGE_KEY).then(() => DummyData);
+    return AsyncStorage.getItem(DECKS_STORAGE_KEY).then((decks) => JSON.parse(decks));
 }
 
 export function getDeck (id) {
     return AsyncStorage.getItem(DECKS_STORAGE_KEY)
 }
 
-export function saveDeckTitle ({ title }) {
-    return AsyncStorage.mergeItem(DECKS_STORAGE_KEY, JSON.stringify({
+export function saveDeckTitle (title) {
+    const newDeck = JSON.stringify({
         [title]: {
             title: title,
             questions: []
         },
-    }))
+    })
+
+    return AsyncStorage.mergeItem(DECKS_STORAGE_KEY, newDeck)
 }
 
 export function addCardToDeck ({ title, card }) {
@@ -105,6 +29,14 @@ export function addCardToDeck ({ title, card }) {
             questions: [card]
         },
     }))
+}
+
+export async function clearAllData() {
+    try {
+        await AsyncStorage.removeItem(DECKS_STORAGE_KEY)
+    } catch(e) {
+        // remove error
+    }
 }
 
 export function removeDeck (key) {

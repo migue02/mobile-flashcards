@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyleSheet, Text, TouchableOpacity } from 'react-native'
-import { purple } from '../utils/colors'
+import { red } from '../utils/colors'
 
 export default function TextButton ({ children, onPress, style = {} }) {
     return (
@@ -13,6 +13,6 @@ export default function TextButton ({ children, onPress, style = {} }) {
 const styles = StyleSheet.create({
     reset: {
         textAlign: 'center',
-        color: purple
+        color: red
     }
 })

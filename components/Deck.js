@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, StyleSheet, Text } from 'react-native'
-import { gray, purple } from '../utils/colors'
+import { gray, red } from '../utils/colors'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 
 export default function Deck ({ title, questions }) {
@@ -9,7 +9,7 @@ export default function Deck ({ title, questions }) {
             <View style={[styles.iconContainer]}>
                 <MaterialCommunityIcons
                     name='card'
-                    color={purple}
+                    color={red}
                     size={35}
                 />
             </View>
