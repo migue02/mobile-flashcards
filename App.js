@@ -14,6 +14,7 @@ import { FontAwesome, Ionicons } from '@expo/vector-icons'
 import { red, white } from './utils/colors'
 import { createStackNavigator } from '@react-navigation/stack'
 import Constants from 'expo-constants';
+import AddCard from './components/AddCard';
 
 const Stack = createStackNavigator();
 
@@ -70,6 +71,14 @@ const MainNav = () => (
         <Stack.Screen
             name='DeckDetail'
             component={DeckDetail}
+            options={{
+                headerTintColor: white, headerStyle: {
+                    backgroundColor: red,
+                }
+            }}/>
+        <Stack.Screen
+            name='AddCard'
+            component={AddCard}
             options={{
                 headerTintColor: white, headerStyle: {
                     backgroundColor: red,

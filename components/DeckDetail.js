@@ -2,18 +2,10 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { View, StyleSheet, Text } from 'react-native'
 import { gray, black, white } from '../utils/colors'
-import { cos } from 'react-native-reanimated';
 import TextButton from './TextButton';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 class DeckDetail extends Component {
-
-    addCard = () => {
-        // const { remove, goBack, entryId } = this.props
-
-        // remove()
-        // goBack()
-        // removeEntry(entryId)
-    }
 
     startQuiz = () => {
         // const { remove, goBack, entryId } = this.props
@@ -44,9 +36,15 @@ class DeckDetail extends Component {
                     </Text>
                 </View>
                 <View style={styles.buttons}>
-                    <TextButton style={[styles.btn, styles.addBtn]} onPress={this.addCard}>
-                        Add Card
-                    </TextButton>
+                    <TouchableOpacity
+                        style={[styles.btn, styles.addBtn]}
+                        onPress={() => this.props.navigation.navigate(
+                            'AddCard',
+                            { id: item.title }
+                        )}
+                    >
+                        <Text>Add Card</Text>
+                    </TouchableOpacity>
                     <TextButton style={[styles.btn, styles.startBtn]} onPress={this.startQuiz}>
                         Star Quiz
                     </TextButton>

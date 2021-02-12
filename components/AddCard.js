@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { TouchableOpacity, Text, Platform, StyleSheet, KeyboardAvoidingView } from 'react-native'
-import { saveDeckTitle } from '../utils/api'
+import { addCardToDeck } from '../utils/api'
 import { connect } from 'react-redux'
-import { addDeck } from '../actions'
+import { addCard } from '../actions'
 import { gray, red, white } from '../utils/colors'
 import { CommonActions } from '@react-navigation/native'
 import { TextInput } from 'react-native-gesture-handler'
@@ -19,50 +19,71 @@ function SubmitBtn ({ disabled, onPress }) {
 }
 
 
-class AddDeck extends Component {
+class AddCard extends Component {
     state = {
-        title: '',
+        question: '',
+        answer: '',
     }
 
     submit = () => {
-        const { title } = this.state
+        const title = this.props.route.params.id
+        const { question, answer } = this.state
+        const newCard = {
+            title,
+            card: {
+                question,
+                answer,
+            }
+        }
 
-        this.props.dispatch(addDeck(title))
+        this.props.dispatch(addCard(newCard))
 
         this.setState(() => ({
-            title: ''
+            question: '',
+            answer: ''
         }))
 
         this.toHome();
 
-        saveDeckTitle(title)
+        addCardToDeck(newCard)
     }
 
     toHome = () => {
         this.props.navigation.dispatch(
             CommonActions.goBack({
-                key: 'AddDeck',
+                key: 'DeckDetail',
             }))
     }
 
-    handleTextChange = (title) => {
-        this.setState(() => ({
-            title
-        }))
+    handleTextChange = (name, text) => {
+        this.setState({
+            [name]:text
+        })
+    }
+
+    componentDidMount(){
+        this.props.navigation.setOptions({
+            title: 'Add Card'
+        });
     }
 
     render() {
-        const { title } = this.state
+        const { question, answer } = this.state
 
         return (
             <KeyboardAvoidingView behavior='padding' style={styles.container}>
-                <Text style={styles.title}>What is the title of your new deck?</Text>
+                <Text style={styles.title}>Enter your new card</Text>
                 <TextInput
-                    value={title}
+                    value={question}
                     style={[styles.center, styles.input]}
-                    onChangeText={this.handleTextChange}
+                    onChangeText={(text) => this.handleTextChange('question', text)}
                 ></TextInput>
-                <SubmitBtn disabled={title === ''} onPress={this.submit} />
+                <TextInput
+                    value={answer}
+                    style={[styles.center, styles.input]}
+                    onChangeText={(text) => this.handleTextChange('answer', text)}
+                ></TextInput>
+                <SubmitBtn disabled={question === '' || answer === ''} onPress={this.submit} />
             </KeyboardAvoidingView>
         )
     }
@@ -117,4 +138,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default connect()(AddDeck)
+export default connect()(AddCard)
