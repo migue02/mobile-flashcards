@@ -1,18 +1,28 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { View, StyleSheet, Text } from 'react-native'
-import { gray, black, white } from '../utils/colors'
+import { gray, white, red } from '../utils/colors'
 import TextButton from './TextButton';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { TouchableOpacity } from 'react-native-gesture-handler'
+import { removeDeck } from '../actions'
+import { deleteDeck } from '../utils/api'
+import { CommonActions } from '@react-navigation/native';
 
 class DeckDetail extends Component {
 
-    startQuiz = () => {
-        // const { remove, goBack, entryId } = this.props
+    deleteDeck = () => {
+        const { id } = this.props
 
-        // remove()
-        // goBack()
-        // removeEntry(entryId)
+        this.toHome();
+        deleteDeck(id)
+        this.props.dispatch(removeDeck(id))
+    }
+
+    toHome = () => {
+        this.props.navigation.dispatch(
+            CommonActions.goBack({
+                key: 'DetailDeck',
+            }))
     }
 
     componentDidMount(){
@@ -23,6 +33,11 @@ class DeckDetail extends Component {
 
     render() {
         const { item } = this.props;
+
+        if (!item) {
+            return <View />
+        }
+
         const { title, questions } = item
 
         return (
@@ -37,16 +52,25 @@ class DeckDetail extends Component {
                 </View>
                 <View style={styles.buttons}>
                     <TouchableOpacity
-                        style={[styles.btn, styles.addBtn]}
+                        style={[styles.btn, {backgroundColor: white}]}
                         onPress={() => this.props.navigation.navigate(
                             'AddCard',
-                            { id: item.title }
+                            { id: title }
                         )}
                     >
-                        <Text>Add Card</Text>
+                        <Text style={{textAlign: 'center'}}>Add Card</Text>
                     </TouchableOpacity>
-                    <TextButton style={[styles.btn, styles.startBtn]} onPress={this.startQuiz}>
-                        Star Quiz
+                    <TouchableOpacity
+                        style={[styles.btn, {backgroundColor: red}]}
+                        onPress={() => this.props.navigation.navigate(
+                            'AddCard',
+                            { id: title }
+                        )}
+                    >
+                        <Text style={{textAlign: 'center', color: white}} >Star Quiz</Text>
+                    </TouchableOpacity>
+                    <TextButton style={{marginTop: 20, color: gray}} onPress={this.deleteDeck}>
+                        Delete Deck
                     </TextButton>
                 </View>
             </View>
@@ -81,7 +105,6 @@ const styles = StyleSheet.create({
     },
     btn: {
         borderRadius: Platform.OS === 'ios' ? 16 : 2,
-        fontSize: 16,
         padding: 30,
         margin: 10,
         shadowRadius: 3,
@@ -92,36 +115,17 @@ const styles = StyleSheet.create({
             height: 3
         },
     },
-    addBtn: {
-        backgroundColor: white,
-        color: black,
-    },
-    startBtn: {
-        backgroundColor: black,
-        color: white,
-    },
 })
 
 function mapStateToProps(state, { route }) {
-    const { id } = route.params;
+    const { id, fromAdd } = route.params;
 
     return {
         id,
+        fromAdd,
         state,
         item: state[id],
     }
 }
 
-function mapDispatchToProps(dispatch, { route, navigation }) {
-    // const { entryId } = route.params;
-    return {
-        // remove: () => dispatch(addEntry({
-        //     [entryId]: timeToString() === entryId
-        //         ? getDailyReminderValue()
-        //         : null
-        // })),
-        // goBack: () => navigation.goBack()
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(DeckDetail);
+export default connect(mapStateToProps)(DeckDetail);

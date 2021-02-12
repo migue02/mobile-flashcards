@@ -43,13 +43,13 @@ export async function clearAllData() {
     }
 }
 
-export function removeDeck (key) {
+export function deleteDeck (title) {
     return AsyncStorage.getItem(DECKS_STORAGE_KEY)
         .then((results) => {
             const data = JSON.parse(results)
 
-            data[key] = undefined
-            delete data[key]
+            data[title] = undefined
+            delete data[title]
             AsyncStorage.setItem(DECKS_STORAGE_KEY, JSON.stringify(data))
         })
 }

@@ -33,16 +33,18 @@ class AddDeck extends Component {
             title: ''
         }))
 
-        this.toHome();
+
+        this.props.navigation.dispatch(
+            CommonActions.reset({
+                index: 1,
+                routes: [
+                    { name: 'Home' },
+                    { name: 'DeckDetail', params: { id: title } },
+                ],
+            })
+        )
 
         saveDeckTitle(title)
-    }
-
-    toHome = () => {
-        this.props.navigation.dispatch(
-            CommonActions.goBack({
-                key: 'AddDeck',
-            }))
     }
 
     handleTextChange = (title) => {
