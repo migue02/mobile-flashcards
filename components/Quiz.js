@@ -64,6 +64,10 @@ class Quiz extends Component {
         const { indexCard, score, flipIndex } = this.state
         const totalCards = questions.length
 
+        if (questions.length === 0) {
+            return <Text style={styles.noQuestions}>You will have to create some questions in order to start the quiz...</Text>
+        }
+
         if (questions.length <= indexCard) {
             const result = {
                 questions: questions.length,
@@ -130,6 +134,13 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 45,
         marginBottom: 20,
+        textAlign: 'center',
+    },
+    noQuestions: {
+        flex:1,
+        fontSize: 35,
+        margin: 10,
+        textAlignVertical: 'center',
         textAlign: 'center',
     },
     hint: {

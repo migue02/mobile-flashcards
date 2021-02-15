@@ -1,15 +1,18 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { black, gray, green, red, strongRed, white } from '../utils/colors'
-import { TouchableOpacity } from 'react-native-gesture-handler';
-
+import { TouchableOpacity } from 'react-native-gesture-handler'
+import { clearLocalNotification, setLocalNotification } from '../utils/helpers'
 
 export default function Result ({ questions, score, onReset, toHome }) {
     const percentage = Math.floor((score * 100)/questions)
 
+    clearLocalNotification()
+        .then(setLocalNotification)
+
     return (
         <View style={styles.container}>
-            <Text style={percentage > 50 ? styles.congratulations : styles.tryAgain}>{percentage > 50 ? 'Congratulations!!' : "Don't give up, take a break and try again!"}</Text>
+            <Text style={percentage > 50 ? styles.congratulations : styles.tryAgain}>{percentage > 50 ? 'Congratulations!' : "Don't give up, take a break and try again!"}</Text>
             <View>
                 <View style={styles.result}>
                     <Text style={styles.title}>Questions:</Text>

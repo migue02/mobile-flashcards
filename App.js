@@ -15,7 +15,8 @@ import { red, white } from './utils/colors'
 import { createStackNavigator } from '@react-navigation/stack'
 import Constants from 'expo-constants';
 import AddCard from './components/AddCard';
-import Quiz from './components/Quiz';
+import Quiz from './components/Quiz'
+import { setLocalNotification } from './utils/helpers'
 
 const Stack = createStackNavigator();
 
@@ -104,17 +105,24 @@ function CustomStatusBar ({backgroundColor, ...props}) {
   )
 }
 
-export default function App() {
-  return (
-    <Provider store={createStore(reducer)}>
-      <View style={styles.container}>
-        <NavigationContainer>
-            <CustomStatusBar backgroundColor={red} barStyle="light-content"/>
-            <MainNav />
-        </NavigationContainer>
-      </View>
-    </Provider>
-  );
+export default class App extends React.Component {
+
+  componentDidMount() {
+    setLocalNotification()
+  }
+
+  render() {
+    return (
+      <Provider store={createStore(reducer)}>
+        <View style={styles.container}>
+          <NavigationContainer>
+              <CustomStatusBar backgroundColor={red} barStyle="light-content"/>
+              <MainNav />
+          </NavigationContainer>
+        </View>
+      </Provider>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
