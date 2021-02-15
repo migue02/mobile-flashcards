@@ -15,6 +15,7 @@ import { red, white } from './utils/colors'
 import { createStackNavigator } from '@react-navigation/stack'
 import Constants from 'expo-constants';
 import AddCard from './components/AddCard';
+import Quiz from './components/Quiz';
 
 const Stack = createStackNavigator();
 
@@ -79,6 +80,14 @@ const MainNav = () => (
         <Stack.Screen
             name='AddCard'
             component={AddCard}
+            options={{
+                headerTintColor: white, headerStyle: {
+                    backgroundColor: red,
+                }
+            }}/>
+        <Stack.Screen
+            name='Quiz'
+            component={Quiz}
             options={{
                 headerTintColor: white, headerStyle: {
                     backgroundColor: red,

@@ -24,9 +24,9 @@ export function removeDeck (title) {
     }
 }
 
-export function addCard (card) {
+export function addCard (newCard) {
     return {
         type: ADD_CARD,
-        card
+        newCard
     }
 }

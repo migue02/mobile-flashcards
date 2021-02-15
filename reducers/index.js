@@ -20,9 +20,9 @@ function entries (state = {}, action) {
         case ADD_CARD:
             return {
                 ...state,
-                [action.card.title]: {
-                    title: action.card.title,
-                    questions: state[action.card.title].questions.concat([action.card.question]),
+                [action.newCard.title]: {
+                    title: action.newCard.title,
+                    questions: state[action.newCard.title].questions.concat([action.newCard.card]),
                 }
             }
         default:

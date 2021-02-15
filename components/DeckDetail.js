@@ -63,8 +63,8 @@ class DeckDetail extends Component {
                     <TouchableOpacity
                         style={[styles.btn, {backgroundColor: red}]}
                         onPress={() => this.props.navigation.navigate(
-                            'AddCard',
-                            { id: title }
+                            'Quiz',
+                            { deck: item }
                         )}
                     >
                         <Text style={{textAlign: 'center', color: white}} >Star Quiz</Text>
